@@ -28,19 +28,74 @@ Das Projekt „CSVTOJSON“ hat zum Ziel, eine innovative Lösung zu entwickeln,
 
 ### Systemanforderungen
 
-Systemanforderungen beschreiben
+Bevor Sie das Projekt installieren, stellen Sie sicher, dass Ihr System die folgenden Anforderungen erfüllt:
+
+- Betriebssystem: Linux, macOS oder Windows (mit WSL2 empfohlen)
+- AWS CLI: Version 2.x installiert und konfiguriert
+- Python: Version 3.8 oder höher
+- Bash: Für die Ausführung der Skripte
+- AWS IAM Rolle: Eine bestehende IAM-Rolle mit den erforderlichen Berechtigungen (LabRole)
+- AWS Account: Zugriff auf einen AWS-Account mit Administratorrechten
+- S3 Berechtigungen: Berechtigungen zum Erstellen und Löschen von S3-Buckets
+-  Lambda Berechtigungen: Berechtigungen zum Erstellen und Verwalten von Lambda-Funktionen
 
 ### Installationsschritte
 
-1. **Schritt 1**: Beschreibung des ersten Schrittes.
-2. **Schritt 2**: Beschreibung des zweiten Schrittes.
-3. **Schritt 3**: Erste Schritte nach der Installation.
+1. **AWS CLI konfigurieren**: Stellen Sie sicher, dass die AWS CLI auf Ihrem System installiert und konfiguriert ist:
+```bash
+aws configure
+```
+Geben Sie Ihre **AWS Access Key ID**, **AWS Secret Access Key**, **Region (z. B. us-east-1)**, und das gewünschte Ausgabeformat (z. B. json) ein.
+
+<br>
+
+2. **Projektverzeichnis vorbereiten**: Klonen Sie das Projekt oder laden Sie es herunter:
+```bash
+git clone https://github.com/jahja08/M346_CSV-to-JSON-Service.git
+# Navigiere zum Projektordner
+cd M346_CSV-to-JSON-Service
+```
+
+<br>
+
+3. **Initialisierung ausführen**: Führen Sie das Initialisierungsskript aus, um die erforderlichen AWS-Ressourcen zu erstellen:
+```bash
+# Datei ausführbar machen (Berechtigungen)
+chmod +x scripts/Init.sh
+# Führt das Skript aus.
+./scripts/Init.sh <AWS_ACCOUNT_ID>
+```
+**Hinweis:** Ersetzen Sie **<AWS_ACCOUNT_ID>** durch Ihre AWS Account ID.
+
+Das Skript führt folgende Aktionen durch:
+- Erstellen von S3-Buckets (Eingangs- und Ausgangsbuckets).
+- Erstellen und Konfigurieren einer Lambda-Funktion für die CSV-zu-JSON-Konvertierung.
+- Hinzufügen von S3-Bucket-Benachrichtigungen zur Lambda-Funktion.
+
+<br>
+
+4. **CSV-Datei vorbereiten**: Platzieren Sie eine CSV-Datei (z. B. ``test.csv``) im Ordner ``input``.
+
+<br>
+
+5. **Pipeline ausführe**: Starten Sie die Pipeline mit dem Skript ``RunPipeline.sh``:
 
 ```bash
-# Beispiel für einen Codeblock
-sudo apt update
-sudo apt install mein-programm
+# Datei ausführbar machen (Berechtigungen)
+chmod +x scripts/RunPipeline.sh
+# Führt das Skript  aus.
+./scripts/RunPipeline.sh <IN_BUCKET> <OUT_BUCKET> <LAMBDA_FUNCTION_NAME>
 ```
+**Hinweis**: Ersetzen Sie **<IN_BUCKET>**, **<OUT_BUCKET>** und **<LAMBDA_FUNCTION_NAME>** durch die Werte, die im Initialisierungsskript ausgegeben wurden.
+
+<br>
+
+6. **Ressourcenverwaltung** (optional):
+- Ressourcen löschen: Falls die Ressourcen nicht mehr benötigt werden, können sie mit dem Skript ``RunPipeline.sh`` gelöscht werden. Sie werden dazu am Ende des Skripts gefragt.
+- Manuelle Steuerung: Falls Sie die Ressourcen behalten möchten, notieren Sie sich die ausgegebenen Werte von ``IN_BUCKET``, ``OUT_BUCKET``, und ``LAMBDA_FUNCTION_NAME``.
+
+
+
 ## Features
 
 - **Feature 1:** Kurzbeschreibung
