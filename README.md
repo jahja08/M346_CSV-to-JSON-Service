@@ -13,6 +13,10 @@
   - [Installationsschritte](#installationsschritte)
   - [Erste Schritte nach der Installation](#erste-schritte-nach-der-installation)
 - [Anwendung](#anwendung)
+- [Reflexionen](#reflexionen)
+  - [Jahja Ajredini](#jahja-ajredini)
+  - [Merdijan Nuhija](#merdijan-nuhija)
+  - [Alaaddin Karakoyun](#alaaddin-karakoyun)
 - [FAQ](#faq)
   - [Frage 1: Welche AWS-Ressourcen werden erstellt?](#frage-1-welche-aws-ressourcen-werden-erstellt)
   - [Frage 2: Wie kann ich die Ressourcen löschen?](#frage-2-wie-kann-ich-die-ressourcen-löschen)
@@ -37,9 +41,11 @@ Das Projekt „CSVTOJSON“ hat zum Ziel, eine innovative Lösung zu entwickeln,
 
 ## Features
 
-- **Feature 1:** Kurzbeschreibung
-- **Feature 2:** Kurzbeschreibung
-- **Feature 3:** Kurzbeschreibung
+- **Automatische CSV-Verarbeitung:** CSV-Dateien, die in den Input-Bucket hochgeladen werden, werden automatisch verarbeitet und in JSON-Dateien konvertiert.
+- **Serverlose Architektur:** Das Projekt nutzt AWS Lambda, um eine kosteneffiziente und skalierbare Lösung bereitzustellen.
+- **Einfache Installation und Nutzung:** Mit klaren Anleitungen und Shell-Skripten wird die Einrichtung und Nutzung für den Anwender erleichtert.
+- **Flexibilität:** Das Skript ermöglicht Anpassungen wie das Ändern der Timeout-Dauer oder der AWS-Region.
+- **Ressourcenverwaltung:** Einfaches Erstellen und Löschen von AWS-Ressourcen durch integrierte Skripte.
 
 ---
 
@@ -62,6 +68,9 @@ Beachte das die File-Hierarchie folgendermassen aussieht:
 
 <img src="img/File-Hierarchie.png" width="600">
 
+**Hinweis**: Der Ordner ``img/`` ist leer und kann für Screenshots oder Dokumentationsbilder verwendet werden.
+
+<br>
 
 ### Installationsschritte
 
@@ -129,6 +138,26 @@ chmod +x scripts/RunPipeline.sh
 ## Testen des Scripts
 
 
+
+---
+
+## Reflexionen
+
+### Jahja Ajredini
+
+<!-- Reflexion -->
+
+<br>
+
+### Merdijan Nuhija
+
+<!-- Reflexion -->
+
+<br>
+
+### Alaaddin Karakoyun
+
+<!-- Reflexion -->
 
 ---
 
