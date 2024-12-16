@@ -58,6 +58,11 @@ Bevor Sie das Projekt installieren, stellen Sie sicher, dass Ihr System die folg
 - S3 Berechtigungen: Berechtigungen zum Erstellen und Löschen von S3-Buckets
 -  Lambda Berechtigungen: Berechtigungen zum Erstellen und Verwalten von Lambda-Funktionen
 
+Beachte das die File-Hierarchie folgendermassen aussieht:
+
+<img src="img/File-Hierarchie.png" width="600">
+
+
 ### Installationsschritte
 
 1. **AWS CLI konfigurieren**: Stellen Sie sicher, dass die AWS CLI auf Ihrem System installiert und konfiguriert ist:
