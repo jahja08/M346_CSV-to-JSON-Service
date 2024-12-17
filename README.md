@@ -127,7 +127,7 @@ chmod +x scripts/RunPipeline.sh
 
 <br>
 
-3. **Ausgabe der JSON Datei**: Nun solltest du Die JSON Datei im Output-Bucket drin haben.
+3. **Ausgabe der JSON Datei**: Nun solltest du Die JSON Datei im Output-Ordner drin haben uns sie sollte heruntergeladen sein.
 
 <br>
 
