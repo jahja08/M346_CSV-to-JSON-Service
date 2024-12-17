@@ -1,7 +1,9 @@
 # Projektarbeit M346
 **Autor:** Jahja, Alaaddin, Merdijan  
-**Version:** 1.0.2  
-**Datum:** 11.12.24
+
+**Version:** 1.0.6
+
+**Datum:** 17.12.2024
 
 **Beschreibung:** CSV to JSON Converter with AWS Cloud  
 
@@ -35,7 +37,7 @@
 
 ## Einführung in das Projekt "CSVTOJSON"
 
-Das Projekt „CSVTOJSON“ hat zum Ziel, eine innovative Lösung zu entwickeln, die die Umwandlung von CSV-Dateien in JSON-Dateien schnell und einfach ermöglicht. In einer Welt, die zunehmend auf die Verwendung spezifischer Dateiformate angewiesen ist, wächst die Nachfrage nach spezialisierten Konvertierungsprogrammen. Das Projekt richtet sich an technikaffine Anwender, die eine unkomplizierte und effiziente Möglichkeit suchen, ihre Datenformate zu konvertieren. Durch den Einsatz von S3 Buckets und einer Lambda-Funktion in einem Script, das mit nur einem einfachen Aufruf ausgeführt werden kann, wird eine benutzerfreundliche und automatisierte Lösung geschaffen, die einen reibungslosen Ablauf gewährleistet.
+Das Projekt „CSVTOJSON“ hat zum Ziel, eine innovative Lösung zu entwickeln, die die Umwandlung von CSV-Dateien in JSON-Dateien schnell und einfach ermöglicht. In einer Welt, die zunehmend auf die Verwendung spezifischer Dateiformate angewiesen ist, wächst die Nachfrage nach spezialisierten Konvertierungsprogrammen. Das Projekt richtet sich an technikaffine Anwender, die eine unkomplizierte und effiziente Möglichkeit suchen, ihre Datenformate zu konvertieren. Durch den Einsatz von S3 Buckets und einer Lambda-Funktion in einem Skript, das mit nur einem einfachen Aufruf ausgeführt werden kann, wird eine benutzerfreundliche und automatisierte Lösung geschaffen, die einen reibungslosen Ablauf gewährleistet.
 
 ---
 
@@ -60,15 +62,15 @@ Bevor Sie das Projekt installieren, stellen Sie sicher, dass Ihr System die folg
 - Python: Version 3.8 oder höher
 - Bash: Für die Ausführung der Skripte
 - AWS IAM Rolle: Eine bestehende IAM-Rolle mit den erforderlichen Berechtigungen (LabRole)
-- AWS Account: Zugriff auf einen AWS-Account mit Administratorrechten
+- AWS-Account: Zugriff auf einen AWS-Account mit Administratorrechten
 - S3 Berechtigungen: Berechtigungen zum Erstellen und Löschen von S3-Buckets
 -  Lambda Berechtigungen: Berechtigungen zum Erstellen und Verwalten von Lambda-Funktionen
 
-Beachte das die File-Hierarchie folgendermassen aussieht:
+Beachte, dass die File-Hierarchie folgendermassen aussieht:
 
 <img src="img/File-Hierarchie.png" width="600">
 
-**Hinweis**: Der Ordner ``img/`` ist leer und kann für Screenshots oder Dokumentationsbilder verwendet werden.
+**Hinweis**: Der Ordner ``img/`` ist hier leer aber er wird für Screenshots oder Dokumentationsbilder verwendet.
 
 <br>
 
@@ -78,7 +80,7 @@ Beachte das die File-Hierarchie folgendermassen aussieht:
 ```bash
 aws configure
 ```
-Geben Sie Ihre **AWS Access Key ID**, **AWS Secret Access Key**, **Region (z. B. us-east-1)**, und das gewünschte Ausgabeformat (z. B. json) ein.
+Geben Sie Ihre **AWS-Access-Key-ID**, **AWS-Secret-Access-Key**, **Region (z. B. us-east-1)**, und das gewünschte Ausgabeformat (z. B. json) ein.
 
 <br>
 
@@ -98,7 +100,7 @@ chmod +x scripts/Init.sh
 # Führt das Skript aus.
 ./scripts/Init.sh <AWS_ACCOUNT_ID>
 ```
-**Hinweis:** Ersetzen Sie **<AWS_ACCOUNT_ID>** durch Ihre AWS Account ID.
+**Hinweis:** Ersetzen Sie **<AWS_ACCOUNT_ID>** durch Ihre AWS-Account ID.
 
 Das Skript führt folgende Aktionen durch:
 - Erstellen von S3-Buckets (Eingangs- und Ausgangsbuckets).
@@ -125,17 +127,17 @@ chmod +x scripts/RunPipeline.sh
 
 <br>
 
-3. **Ausgabe der JSON Datei**: Nun solltest du Die JSON Datei im Output drin haben.
+3. **Ausgabe der JSON Datei**: Nun solltest du Die JSON Datei im Output-Bucket drin haben.
 
 <br>
 
 4. **Ressourcenverwaltung** (optional):
-- Ressourcen löschen: Falls die Ressourcen nicht mehr benötigt werden, können sie mit dem Skript ``RunPipeline.sh`` gelöscht werden. Sie werden dazu am Ende des Skripts gefragt.
+- Ressourcen löschen: Falls die Ressourcen nicht mehr benötigt werden, können sie mit dem Skript ``RunPipeline.sh`` entfernt werden. Sie werden dazu am Ende des Skripts gefragt.
 - Manuelle Steuerung: Falls Sie die Ressourcen behalten möchten, notieren Sie sich die ausgegebenen Werte von ``IN_BUCKET``, ``OUT_BUCKET``, und ``LAMBDA_FUNCTION_NAME``.
 
 ---
 
-## Testen des Scripts
+## Testen des Skripts
 
 
 
@@ -215,6 +217,6 @@ aws lambda delete-function --function-name <LAMBDA_FUNCTION_NAME>
 
 Wenn du weitere Fragen hast, kontaktiere uns unter:
 
-- **E-Mail Alaaddin:** [Alaaddin.Karakoyun@edu.gbssg.ch](mailto:Alaaddin.Karakoyun@edu.gbssg.ch)
-- **E-Mail Jahja:** [Jahja.Ajredini@edu.gbssg.ch](mailto:Jahja.Ajredini@edu.gbssg.ch)
-- **E-Mail Merdijan:** [Merdijan.Nuhija@edu.gbssg.ch](mailto:Merdijan.Nuhija@edu.gbssg.ch)
+- **E-Mail Alaaddin Karakoyun:** [Alaaddin.Karakoyun@edu.gbssg.ch](mailto:Alaaddin.Karakoyun@edu.gbssg.ch)
+- **E-Mail Jahja Ajredini:** [Jahja.Ajredini@edu.gbssg.ch](mailto:Jahja.Ajredini@edu.gbssg.ch)
+- **E-Mail Merdijan Nuhija:** [Merdijan.Nuhija@edu.gbssg.ch](mailto:Merdijan.Nuhija@edu.gbssg.ch)
