@@ -17,6 +17,10 @@
     - [Installationsschritte](#installationsschritte)
   - [Anwendung](#anwendung)
   - [Testen des Skripts](#testen-des-skripts)
+        - [Alaaddin Karakoyun 18.12.2024](#alaaddin-karakoyun-18122024)
+      - [3.1 Installation python-venv3](#31-installation-python-venv3)
+      - [3.2 Installation boto3](#32-installation-boto3)
+      - [6.1](#61)
   - [Reflexionen](#reflexionen)
     - [Jahja Ajredini](#jahja-ajredini)
     - [Merdijan Nuhija](#merdijan-nuhija)
@@ -166,8 +170,76 @@ chmod +x scripts/RunPipeline.sh
 ---
 
 ## Testen des Skripts
+##### Alaaddin Karakoyun 18.12.2024
+1. AWS Konfigurieren
+
+<img src="img/test/1_awsconfig.png" width="400">
+
+Als erstes konfigurieren wir unsere AWS Learner Lab mit unserem VM. Hierbei sind folgende Daten anzugeben:
+- aws_access_key_id
+- aws_secret_access_key
+- Default region name
+- Default output format
+<br>
+<br>
+
+2. Das Projektverzeichnis klonen und vorbereiten
+
+<img src="img/test/2_gitclone.png" width=400>
+
+Im nächsten Schritt haben wir die Repository geklont mit dem Kommand: <br>
+```bash
+git clone https://github.com/jahja08/M346_CSV-to-JSON-Service
+```
+Hier ist es wichtig zu beachten, dass man mit dem Github-Account angemeldet ist.
+<br>
+<br>
 
 
+#### 3.1 Installation python-venv3
+
+Um unsere Python-Skript nutzen zu können, installieren wir den "python3-venv" Paket
+<br>
+<img src="img/test/3_1_pythoninstall.png" width=400>
+<br>
+Stellen Sie sicher, dass Sie mit dem Netzwerk verbunden sind oder wenn Sie auf einer VM sind, <br>
+dann sollte die Netzwerkeinstellung auf NAT eingestellt sein.
+<br>
+<br>
+
+#### 3.2 Installation boto3
+
+Im gleichen Schritt ist noch die Installation von einem weiteren Tool.
+
+<img src="img/test/3_2_pipinstallboto.png">
+
+
+
+
+4. Datei "notification.json" anpassen
+
+Damit die Skript fehlerfrei mit richtigen Angaben funktioniert, geben wir zunächst unsere Aws_AccountId im Datei "notification.json" ein.
+
+<img src="img/test/notificationjson.png" width=400>
+<br>
+In unserem Beispiel ist die AWS_Account_Id zensiert aus Sicherheitsgründen.
+Nach der Bearbeitung ist die Datei "notification.json" schon angepasst <br>und ist bereit für die Skripte.
+<br>
+<br>
+
+5. Erste Skript "init.sh" ausführen 
+
+Schon können wir unsere erste Skript namens "init.sh" ausführen. Angegeben wird hier <br>
+nochmals unsere AWS_Account_Id, welche im Beispiel zensiert ist.
+
+<img src="img/test/4_initsh.png">
+
+Diese Skript erzeugt für uns zwei S3-Buckets, nämlich die Input-Bucket und die Output-Bucket. <br>
+Ausserdem wird die Lambda-Funktion bereitgestellt und wir sind jetzt bereit um <br>
+eine CSV-Datei in eine JSON-Datei zu konvertieren.
+
+
+#### 6.1 
 
 ---
 
