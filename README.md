@@ -111,13 +111,16 @@ pip install boto3
 <br>
 Unter M346_CSV-to-JSON-Service/src/notification.json ändern Sie die folgende Zeile:
 <br>
-"LambdaFunctionArn": "arn:aws:lambda:us-east-1:**<AWS_AccountId>**:function:Csv2JsonFunction",
-Ersetzen Sie <AWS_AccountId> mit ihrem eigenen Aws_AccountId
+<br>
+"LambdaFunctionArn": "arn:aws:lambda:us-east-1:**<AWS_AccountId>**:function:Csv2JsonFunction", 
+<br>
+<br>
+Ersetzen Sie **<AWS_AccountId>** mit ihrem eigenen Aws_AccountId
 <br>
 
 <img src="img/notificationjson.png" width="500">
 <br>
-
+<br>
 5. **Initialisierung ausführen**: Führen Sie das Initialisierungsskript aus, um die erforderlichen AWS-Ressourcen zu erstellen:
 ```bash
 # Datei ausführbar machen (Berechtigungen)
