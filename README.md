@@ -85,22 +85,24 @@ Geben Sie Ihre **AWS-Access-Key-ID**, **AWS-Secret-Access-Key**, **Region (z. B.
 
 <br>
 
-2. **Pip install ausführen**: Installieren Sie mit den folgenden Commands boto3:
+2. **Projektverzeichnis vorbereiten**: Klonen Sie das Projekt oder laden Sie es herunter:
 ```bash
+git clone https://github.com/jahja08/M346_CSV-to-JSON-Service.git
+# Navigiere zum Projektordner
+cd M346_CSV-to-JSON-Service
+```
+
+<br>
+
+3. **Pip install ausführen**: Installieren Sie mit den folgenden Commands boto3:
+```bash
+sudo apt-get update
+sudo apt-get install python3-venv
 python3 -m venv .venv
 # Aktiviere die Virtuelle Environment
 source .venv/bin/activate
 # installieren
 pip install boto3
-```
-
-<br>
-
-3. **Projektverzeichnis vorbereiten**: Klonen Sie das Projekt oder laden Sie es herunter:
-```bash
-git clone https://github.com/jahja08/M346_CSV-to-JSON-Service.git
-# Navigiere zum Projektordner
-cd M346_CSV-to-JSON-Service
 ```
 
 <br>
