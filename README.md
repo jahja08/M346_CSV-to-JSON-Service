@@ -8,30 +8,31 @@
 **Beschreibung:** CSV to JSON Converter with AWS Cloud  
 
 ## Inhaltsverzeichnis
-- [Einführung](#einführung)
-- [Features](#features)
-- [Installationsanleitung](#installationsanleitung)
-  - [Systemanforderungen](#systemanforderungen)
-  - [Installationsschritte](#installationsschritte)
-  - [Erste Schritte nach der Installation](#erste-schritte-nach-der-installation)
-- [Anwendung](#anwendung)
-- [Reflexionen](#reflexionen)
-  - [Jahja Ajredini](#jahja-ajredini)
-  - [Merdijan Nuhija](#merdijan-nuhija)
-  - [Alaaddin Karakoyun](#alaaddin-karakoyun)
-- [FAQ](#faq)
-  - [Frage 1: Welche AWS-Ressourcen werden erstellt?](#frage-1-welche-aws-ressourcen-werden-erstellt)
-  - [Frage 2: Wie kann ich die Ressourcen löschen?](#frage-2-wie-kann-ich-die-ressourcen-löschen)
-  - [Frage 3: Was passiert, wenn eine CSV-Datei bereits im Input-Bucket vorhanden ist?](#frage-3-was-passiert-wenn-eine-csv-datei-bereits-im-input-bucket-vorhanden-ist)
-  - [Frage 4: Kann ich andere Dateiformate als CSV verwenden?](#frage-4-kann-ich-andere-dateiformate-als-csv-verwenden)
-  - [Frage 5: Kann ich die Timeout-Einstellungen ändern?](#frage-5-kann-ich-die-timeout-einstellungen-ändern)
-  - [Frage 6: Ich sehe keine JSON-Datei im Output-Bucket. Was soll ich tun?](#frage-6-ich-sehe-keine-json-datei-im-output-bucket-was-soll-ich-tun)
-  - [Frage 7: Kann ich die Region ändern?](#frage-7-kann-ich-die-region-ändern)
-  - [Frage 8: Gibt es Einschränkungen für die Größe der CSV-Datei?](#frage-8-gibt-es-einschränkungen-für-die-größe-der-csv-datei)
-  - [Frage 9: Kann ich mehrere CSV-Dateien gleichzeitig verarbeiten?](#frage-9-kann-ich-mehrere-csv-dateien-gleichzeitig-verarbeiten)
-  - [Frage 10: Was mache ich, wenn das Skript nicht funktioniert?
-](#frage-10-was-mache-ich-wenn-das-skript-nicht-funktioniert)
-- [Kontakt](#kontakt)
+- [Projektarbeit M346](#projektarbeit-m346)
+  - [Inhaltsverzeichnis](#inhaltsverzeichnis)
+  - [Einführung in das Projekt "CSVTOJSON"](#einführung-in-das-projekt-csvtojson)
+  - [Features](#features)
+  - [Installationsanleitung](#installationsanleitung)
+    - [Systemanforderungen](#systemanforderungen)
+    - [Installationsschritte](#installationsschritte)
+  - [Anwendung](#anwendung)
+  - [Testen des Skripts](#testen-des-skripts)
+  - [Reflexionen](#reflexionen)
+    - [Jahja Ajredini](#jahja-ajredini)
+    - [Merdijan Nuhija](#merdijan-nuhija)
+    - [Alaaddin Karakoyun](#alaaddin-karakoyun)
+  - [FAQ](#faq)
+    - [Frage 1: Welche AWS-Ressourcen werden erstellt?](#frage-1-welche-aws-ressourcen-werden-erstellt)
+    - [Frage 2: Wie kann ich die Ressourcen löschen?](#frage-2-wie-kann-ich-die-ressourcen-löschen)
+    - [Frage 3: Was passiert, wenn eine CSV-Datei bereits im Input-Bucket vorhanden ist?](#frage-3-was-passiert-wenn-eine-csv-datei-bereits-im-input-bucket-vorhanden-ist)
+    - [Frage 4: Kann ich andere Dateiformate als CSV verwenden?](#frage-4-kann-ich-andere-dateiformate-als-csv-verwenden)
+    - [Frage 5: Kann ich die Timeout-Einstellungen ändern?](#frage-5-kann-ich-die-timeout-einstellungen-ändern)
+    - [Frage 6: Ich sehe keine JSON-Datei im Output-Bucket. Was soll ich tun?](#frage-6-ich-sehe-keine-json-datei-im-output-bucket-was-soll-ich-tun)
+    - [Frage 7: Kann ich die Region ändern?](#frage-7-kann-ich-die-region-ändern)
+    - [Frage 8: Gibt es Einschränkungen für die Größe der CSV-Datei?](#frage-8-gibt-es-einschränkungen-für-die-größe-der-csv-datei)
+    - [Frage 9: Kann ich mehrere CSV-Dateien gleichzeitig verarbeiten?](#frage-9-kann-ich-mehrere-csv-dateien-gleichzeitig-verarbeiten)
+    - [Frage 10: Was mache ich, wenn das Skript nicht funktioniert?](#frage-10-was-mache-ich-wenn-das-skript-nicht-funktioniert)
+  - [Kontakt](#kontakt)
 
 ---
 
@@ -84,7 +85,18 @@ Geben Sie Ihre **AWS-Access-Key-ID**, **AWS-Secret-Access-Key**, **Region (z. B.
 
 <br>
 
-2. **Projektverzeichnis vorbereiten**: Klonen Sie das Projekt oder laden Sie es herunter:
+2. **Pip install ausführen**: Installieren Sie mit den folgenden Commands boto3:
+```bash
+python3 -m venv .venv
+# Aktiviere die Virtuelle Environment
+source .venv/bin/activate
+# installieren
+pip install boto3
+```
+
+<br>
+
+3. **Projektverzeichnis vorbereiten**: Klonen Sie das Projekt oder laden Sie es herunter:
 ```bash
 git clone https://github.com/jahja08/M346_CSV-to-JSON-Service.git
 # Navigiere zum Projektordner
