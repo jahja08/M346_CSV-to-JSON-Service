@@ -20,7 +20,6 @@
         - [Alaaddin Karakoyun 18.12.2024](#alaaddin-karakoyun-18122024)
       - [3.1 Installation python-venv3](#31-installation-python-venv3)
       - [3.2 Installation boto3](#32-installation-boto3)
-      - [6.1](#61)
   - [Reflexionen](#reflexionen)
     - [Jahja Ajredini](#jahja-ajredini)
     - [Merdijan Nuhija](#merdijan-nuhija)
@@ -171,6 +170,8 @@ chmod +x scripts/RunPipeline.sh
 
 ## Testen des Skripts
 ##### Alaaddin Karakoyun 18.12.2024
+<br>
+
 1. AWS Konfigurieren
 
 <img src="img/test/1_awsconfig.png" width="400">
@@ -180,6 +181,7 @@ Als erstes konfigurieren wir unsere AWS Learner Lab mit unserem VM. Hierbei sind
 - aws_secret_access_key
 - Default region name
 - Default output format
+
 <br>
 <br>
 
@@ -192,6 +194,7 @@ Im nächsten Schritt haben wir die Repository geklont mit dem Kommand: <br>
 git clone https://github.com/jahja08/M346_CSV-to-JSON-Service
 ```
 Hier ist es wichtig zu beachten, dass man mit dem Github-Account angemeldet ist.
+
 <br>
 <br>
 
@@ -204,6 +207,7 @@ Um unsere Python-Skript nutzen zu können, installieren wir den "python3-venv" P
 <br>
 Stellen Sie sicher, dass Sie mit dem Netzwerk verbunden sind oder wenn Sie auf einer VM sind, <br>
 dann sollte die Netzwerkeinstellung auf NAT eingestellt sein.
+
 <br>
 <br>
 
@@ -214,6 +218,8 @@ Im gleichen Schritt ist noch die Installation von einem weiteren Tool.
 <img src="img/test/3_2_pipinstallboto.png">
 
 
+<br>
+<br>
 
 
 4. Datei "notification.json" anpassen
@@ -224,6 +230,7 @@ Damit die Skript fehlerfrei mit richtigen Angaben funktioniert, geben wir zunäc
 <br>
 In unserem Beispiel ist die AWS_Account_Id zensiert aus Sicherheitsgründen.
 Nach der Bearbeitung ist die Datei "notification.json" schon angepasst <br>und ist bereit für die Skripte.
+
 <br>
 <br>
 
@@ -237,9 +244,42 @@ nochmals unsere AWS_Account_Id, welche im Beispiel zensiert ist.
 Diese Skript erzeugt für uns zwei S3-Buckets, nämlich die Input-Bucket und die Output-Bucket. <br>
 Ausserdem wird die Lambda-Funktion bereitgestellt und wir sind jetzt bereit um <br>
 eine CSV-Datei in eine JSON-Datei zu konvertieren.
+<br>
+<br>
 
 
-#### 6.1 
+6. Fall 1: Runpipeline.sh direkt nach Initialisierung ausführen
+
+Der vorherige Schritt bereitet für uns zwei Testfälle vor, nämlich der erste Fall wäre, direkt die Runpipeline.sh Skript ausführen mit der Antwort "y" (yes).
+Bei dieser Vorgehensweise werden benötigte Daten direkt mitgegeben und die Datei im Input Ordner wird konvertiert.
+
+<img src="img/test/1_Anwendung_dateiconvert.png" width=400>
+
+Am Schluss kann man die erzeugte Buckets und Lambda-Funktion löschen lassen.
+Falls Sie es vergessen haben, eine CSV-Datei in den Input-Ordner zu stellen, dann wird die Skript fehlschlagen und Sie müssen die Skript Runpipeline.sh selber ausführen und die Daten selber mitgeben. Daher können sie zum nächsten Schritt überspringen.
+
+<br>
+<br>
+
+6. Fall 2: Runpipeline.sh selber ausführen
+
+Nach dem 5. Schritt lehnen wir die Ausführung von Runpipeline.sh mit der Angabe "n" (no) ab. Danach führen wir die Skript "Runpipeline.sh" selber aus.
+
+<img src="img/test/1_Anwendung_ConvertwithoutY.png" width=600>
+
+```bash
+chmod +x scripts/RunPipeline.sh
+./scripts/RunPipeline.sh <IN_BUCKET> <OUT_BUCKET> <LAMBDA_FUNCTION_NAME>
+```
+
+Folgende Daten sind mit der Skript Runpipeline.sh anzugeben:
+- Name Input-Bucket
+- Name Output-Bucket
+- Name Lambda-Funktion
+
+Diese Daten werden nach der Initialisierung ausgegeben, aber Sie können diese auch von der AWS Console Home rausfinden.
+
+
 
 ---
 
