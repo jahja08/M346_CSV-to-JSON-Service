@@ -27,8 +27,9 @@ zip $ZIP_FILE lambda_function.py
 cd ..
 if aws lambda get-function --function-name $LAMBDA_FUNCTION_NAME > /dev/null 2>&1; then
     echo "Lambda Funktion existiert bereits."
-    echo "Lösche Lambda Funktion..."
-    aws lambda delete-function --function-name $LAMBDA_FUNCTION_NAME > /dev/null
+    RANDOM_TEXT=$(date +%s)-$RANDOM
+    LAMBDA_FUNCTION_NAME="${LAMBDA_FUNCTION_NAME}-${RANDOM_TEXT}"
+    echo "Neuer Lambda Funktionsname: $LAMBDA_FUNCTION_NAME"
 fi
 
 if aws lambda create-function \
@@ -42,6 +43,9 @@ if aws lambda create-function \
     echo "Lambda Funktion erfolgreich erstellt."
 else
     echo "Fehler beim Erstellen der Lambda Funktion."
+    eche "IN_BUCKET: $IN_BUCKET"
+    echo "OUT_BUCKET: $OUT_BUCKET"
+    echo "LAMBDA_FUNCTION_NAME: $LAMBDA_FUNCTION_NAME"
     exit 1
 fi
 
@@ -52,20 +56,49 @@ aws lambda add-permission \
   --principal s3.amazonaws.com \
   --source-arn arn:aws:s3:::$IN_BUCKET > /dev/null
   
+# S3 Bucket-Benachrichtigung konfigurieren
+# Create JSON configuration file for S3 bucket notification
+cat <<EOL > src/notification.json
+{
+    "LambdaFunctionConfigurations": [
+        {
+            "Id": "CsvToJsonTrigger",
+            "LambdaFunctionArn": "arn:aws:lambda:us-east-1:$ACCOUNT_ID:function:$LAMBDA_FUNCTION_NAME",
+            "Events": [
+                "s3:ObjectCreated:Put"
+            ],
+            "Filter": {
+                "Key": {
+                    "FilterRules": [
+                        {
+                            "Name": "suffix",
+                            "Value": ".csv"
+                        }
+                    ]
+                }
+            }
+        }
+    ]
+}
+EOL
+
+aws s3api put-bucket-notification-configuration \
+        --bucket $IN_BUCKET \
+        --notification-configuration file://src/notification.json --region $REGION
 
 # S3 Trigger hinzufügen
 LAMBDA_ARN="arn:aws:lambda:$REGION:$ACCOUNT_ID:function:$LAMBDA_FUNCTION_NAME"
 if [[ "$OSTYPE" == "darwin"* ]]; then
-    sed -i '' "s|YOUR_ACCOUNT_ID|$ACCOUNT_ID|g" src/notification.json
-    sed -i '' "s|YOUR_LAMBDA_ARN|$LAMBDA_ARN|g" src/notification.json
+        sed -i '' "s|YOUR_ACCOUNT_ID|$ACCOUNT_ID|g" src/notification.json
+        sed -i '' "s|YOUR_LAMBDA_ARN|$LAMBDA_ARN|g" src/notification.json
 else
-    sed -i "s|YOUR_ACCOUNT_ID|$ACCOUNT_ID|g" src/notification.json
-    sed -i "s|YOUR_LAMBDA_ARN|$LAMBDA_ARN|g" src/notification.json
+        sed -i "s|YOUR_ACCOUNT_ID|$ACCOUNT_ID|g" src/notification.json
+        sed -i "s|YOUR_LAMBDA_ARN|$LAMBDA_ARN|g" src/notification.json
 fi
 
 aws s3api put-bucket-notification-configuration \
-    --bucket $IN_BUCKET \
-    --notification-configuration file://src/notification.json
+        --bucket $IN_BUCKET \
+        --notification-configuration file://src/notification.json --region $REGION
 
 echo "S3 Trigger erfolgreich hinzugefügt."
 
@@ -80,7 +113,7 @@ while true; do
             ;;
         n|N ) 
             echo "Führe RunPipeline.sh manuell aus, um den Prozess zu starten."
-            eche "IN_BUCKET: $IN_BUCKET"
+            echo "IN_BUCKET: $IN_BUCKET"
             echo "OUT_BUCKET: $OUT_BUCKET"
             echo "LAMBDA_FUNCTION_NAME: $LAMBDA_FUNCTION_NAME"
             echo "Beende Initialisierung."

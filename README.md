@@ -131,6 +131,7 @@ Ersetzen Sie **<AWS_AccountId>** mit ihrem eigenen Aws_AccountId
 <br>
 <br>
 5. **Initialisierung ausführen**: Führen Sie das Initialisierungsskript aus, um die erforderlichen AWS-Ressourcen zu erstellen:
+
 ```bash
 # Datei ausführbar machen (Berechtigungen)
 chmod +x scripts/Init.sh

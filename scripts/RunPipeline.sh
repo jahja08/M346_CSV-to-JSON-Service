@@ -1,126 +1,85 @@
-#!/bin/bash
-
-if [ -z "$1" ]; then
-    echo "Bitte geben Sie Ihre AWS Account ID als Parameter an."
+if [ $# -ne 3 ]; then
+    echo "Usage: $0 <IN_BUCKET> <OUT_BUCKET> <LAMBDA_FUNCTION_NAME>"
     exit 1
 fi
 
-# Variablen
-IN_BUCKET="csv-to-json-in-bucket-$(date +%s)-$RANDOM"
-OUT_BUCKET="csv-to-json-out-bucket-$(date +%s)-$RANDOM"
-LAMBDA_FUNCTION_NAME="Csv2JsonFunction"
-ACCOUNT_ID=$1
-EXISTING_ROLE_ARN="arn:aws:iam::$ACCOUNT_ID:role/LabRole"
-ZIP_FILE="lambda_function.zip"
-LAMBDA_HANDLER="lambda_function.lambda_handler"
-RUNTIME="python3.8"
-REGION="us-east-1"
-TIMEOUT=30  # Timeout auf 30 Sekunden setzen
+IN_BUCKET=$1
+OUT_BUCKET=$2
+LAMBDA_FUNCTION_NAME=$3
 
-# S3 Buckets erstellen
-aws s3 mb s3://$IN_BUCKET --region $REGION
-aws s3 mb s3://$OUT_BUCKET --region $REGION
-
-# Lambda Funktion erstellen
-cd src
-zip $ZIP_FILE lambda_function.py
-cd ..
-if aws lambda get-function --function-name $LAMBDA_FUNCTION_NAME > /dev/null 2>&1; then
-    echo "Lambda Funktion existiert bereits."
-    RANDOM_TEXT=$(date +%s)-$RANDOM
-    LAMBDA_FUNCTION_NAME="${LAMBDA_FUNCTION_NAME}-${RANDOM_TEXT}"
-    echo "Neuer Lambda Funktionsname: $LAMBDA_FUNCTION_NAME"
-fi
-
-if aws lambda create-function \
-    --function-name $LAMBDA_FUNCTION_NAME \
-    --zip-file fileb://src/$ZIP_FILE \
-    --handler $LAMBDA_HANDLER \
-    --runtime $RUNTIME \
-    --role $EXISTING_ROLE_ARN \
-    --timeout $TIMEOUT \
-    --environment Variables="{IN_BUCKET=$IN_BUCKET,OUT_BUCKET=$OUT_BUCKET}"> /dev/null 2>&1; then
-    echo "Lambda Funktion erfolgreich erstellt."
-else
-    echo "Fehler beim Erstellen der Lambda Funktion."
-    eche "IN_BUCKET: $IN_BUCKET"
-    echo "OUT_BUCKET: $OUT_BUCKET"
-    echo "LAMBDA_FUNCTION_NAME: $LAMBDA_FUNCTION_NAME"
+# CSV-Datei in den Input-Bucket hochladen
+CSV_Datei=$(find ./input -maxdepth 1 -type f -name "*.csv" | head -n 1)
+if [ -z "$CSV_Datei" ]; then
+    echo "Keine CSV-Datei im Ordner 'input' gefunden."
     exit 1
 fi
 
-aws lambda add-permission \
-  --function-name $LAMBDA_FUNCTION_NAME \
-  --statement-id S3InvokePermission \
-  --action lambda:InvokeFunction \
-  --principal s3.amazonaws.com \
-  --source-arn arn:aws:s3:::$IN_BUCKET > /dev/null
-  
-# S3 Bucket-Benachrichtigung konfigurieren
-# Create JSON configuration file for S3 bucket notification
-cat <<EOL > src/notification.json
-{
-    "LambdaFunctionConfigurations": [
-        {
-            "Id": "CsvToJsonTrigger",
-            "LambdaFunctionArn": "arn:aws:lambda:us-east-1:$ACCOUNT_ID:function:$LAMBDA_FUNCTION_NAME",
-            "Events": [
-                "s3:ObjectCreated:Put"
-            ],
-            "Filter": {
-                "Key": {
-                    "FilterRules": [
-                        {
-                            "Name": "suffix",
-                            "Value": ".csv"
-                        }
-                    ]
-                }
-            }
-        }
-    ]
-}
-EOL
-
-aws s3api put-bucket-notification-configuration \
-        --bucket $IN_BUCKET \
-        --notification-configuration file://src/notification.json --region $REGION
-
-# S3 Trigger hinzufügen
-LAMBDA_ARN="arn:aws:lambda:$REGION:$ACCOUNT_ID:function:$LAMBDA_FUNCTION_NAME"
-if [[ "$OSTYPE" == "darwin"* ]]; then
-        sed -i '' "s|YOUR_ACCOUNT_ID|$ACCOUNT_ID|g" src/notification.json
-        sed -i '' "s|YOUR_LAMBDA_ARN|$LAMBDA_ARN|g" src/notification.json
+aws s3 cp "$CSV_Datei" s3://$IN_BUCKET
+if [ $? -eq 0 ]; then
+    echo "CSV-Datei erfolgreich hochgeladen."
+    if [ -f "./input/uploads/$(basename "$CSV_Datei")" ]; then
+        TIMESTAMP=$(date +%s)
+        mv "$CSV_Datei" "./input/uploads/$(basename "$CSV_Datei" .csv)_$TIMESTAMP.csv"
+    else
+        mv "$CSV_Datei" ./input/uploads/
+    fi
+    if [ $? -eq 0 ]; then
+        echo "CSV-Datei erfolgreich in den Ordner 'uploads' verschoben."
+    else
+        echo "Fehler beim Verschieben der CSV-Datei in den Ordner 'uploads'."
+        exit 1
+    fi
 else
-        sed -i "s|YOUR_ACCOUNT_ID|$ACCOUNT_ID|g" src/notification.json
-        sed -i "s|YOUR_LAMBDA_ARN|$LAMBDA_ARN|g" src/notification.json
+    echo "Fehler beim Hochladen der CSV-Datei."
+    exit 1
 fi
 
-aws s3api put-bucket-notification-configuration \
-        --bucket $IN_BUCKET \
-        --notification-configuration file://src/notification.json --region $REGION
+# JSON-Datei aus dem S3-Bucket herunterladen
+JSON_FILE=$(basename "$CSV_Datei" .csv).json
 
-echo "S3 Trigger erfolgreich hinzugefügt."
-
-
+# Polling mechanism to check if the JSON file has been verarbeitet
+echo "Überprüfe, ob die Datei verarbeitet wurde..."
 while true; do
-    read -p "Möchtest du die RunPipeline.sh ausführen? (y/n): " choice
+    if aws s3 ls s3://$OUT_BUCKET/$JSON_FILE > /dev/null 2>&1; then
+        echo "Datei wurde verarbeitet."
+        break
+    else
+        echo "Datei noch nicht verarbeitet. Warte 5 Sekunden..."
+        sleep 5
+    fi
+done
+
+OUTPUT_FILE=./output/$JSON_FILE
+if [ -f "$OUTPUT_FILE" ]; then
+    TIMESTAMP=$(date +%s)
+    aws s3 cp s3://$OUT_BUCKET/$JSON_FILE ./output/$(basename "$CSV_Datei" .csv)_$TIMESTAMP.json
+else
+    aws s3 cp s3://$OUT_BUCKET/$JSON_FILE ./output
+fi
+
+
+
+# Aufräumen
+while true; do
+    read -p "Möchten Sie die erstellten S3 Buckets und die Lambda Funktion löschen? (y/n): " choice
     case "$choice" in 
         y|Y ) 
-            echo "Führe RunPipeline.sh aus..."
-            ./scripts/RunPipeline.sh $IN_BUCKET $OUT_BUCKET $LAMBDA_FUNCTION_NAME
-            exit 0
+            aws s3 rb s3://$IN_BUCKET --force
+            aws s3 rb s3://$OUT_BUCKET --force
+            aws lambda delete-function --function-name $LAMBDA_FUNCTION_NAME
+            echo "Ressourcen wurden gelöscht."
+            break
             ;;
         n|N ) 
-            echo "Führe RunPipeline.sh manuell aus, um den Prozess zu starten."
+            echo "Ressourcen:"
             echo "IN_BUCKET: $IN_BUCKET"
             echo "OUT_BUCKET: $OUT_BUCKET"
             echo "LAMBDA_FUNCTION_NAME: $LAMBDA_FUNCTION_NAME"
-            echo "Beende Initialisierung."
-            exit 0
+            echo "Ressourcen wurden beibehalten."
+            break
             ;;
         * ) 
-            echo "Ungültige Eingabe."
+            echo "Ungültige Eingabe. Bitte geben Sie 'y' oder 'n' ein."
             ;;
     esac
 done
