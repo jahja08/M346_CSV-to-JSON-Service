@@ -277,7 +277,15 @@ Wir hatten zu lange keine richtige Aufteilung und wussten nicht, wie wir das Pro
 
 ### Merdijan Nuhija
 
-<!-- Reflexion -->
+Zu Beginn der Gruppenarbeit war es wirklich chaotisch. Es gab keine klare Struktur, wer welche Aufgaben übernehmen sollte, und die ersten zwei Lektionen gingen hauptsächlich damit verloren, unsere Computer vorzubereiten und die Aufgabe zu lesen. Es hat eine Weile gedauert, bis wir uns überhaupt auf eine Arbeitsweise einigen konnten.
+
+In der zweiten Woche wurde es zwar etwas besser, aber die Aufgabenverteilung war immer noch nicht klar. Viele Dinge waren unklar, und das führte dazu, dass wir in dieser Zeit auch nicht viel vorangekommen sind. Alaaddin hat dann ein Repository erstellt, in dem wir alle unsere Arbeit gesammelt haben. Ich habe mich daran gemacht, das README zu starten, da ich dachte, das könnte uns helfen, eine bessere Struktur zu finden und die Aufgaben klarer zu definieren.
+
+Trotzdem haben wir immer noch alle an verschiedenen Baustellen gearbeitet, und es fehlte uns an einer klaren Kommunikation darüber, wer welche Teile übernimmt. Irgendwann hat ein Teammitglied dann beschlossen, den Code alleine zu schreiben, weil es sonst keinen richtigen Fortschritt gab. Ich habe mich darauf konzentriert, das README weiter auszubauen und sicherzustellen, dass die Dokumentation des Projekts nicht zu kurz kommt.
+
+Als wir endlich Fortschritte gemacht haben, habe ich eng mit Alaaddin zusammengearbeitet, um die Dokumentation zu vervollständigen. Mein Ziel war es, eine klare und vollständige Beschreibung des Projekts zu liefern, damit wir alle Aufgaben und Ergebnisse gut präsentieren konnten. Der Austausch mit Alaaddin hat hier geholfen, denn durch das Testen des Codes konnte er mir Feedback geben, das ich in die Dokumentation einfließen ließ.
+
+Rückblickend denke ich, dass wir von Anfang an besser hätten kommunizieren müssen. Eine klare Aufgabenzuweisung und ein gemeinsamer Plan hätten uns viel Zeit gespart. Aber letztendlich haben wir es geschafft, das Projekt fertigzustellen, und ich bin stolz darauf, dass ich durch die Dokumentation und das README einen wichtigen Beitrag leisten konnte.
 
 <br>
 
