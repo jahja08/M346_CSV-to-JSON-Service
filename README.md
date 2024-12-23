@@ -115,22 +115,7 @@ pip install boto3
 ```
 
 <br>
-
-4. **notification.json ändern**: Ersetzen sie Folgendes mit ihrem AWSAccountId:
-<br>
-Unter M346_CSV-to-JSON-Service/src/notification.json ändern Sie die folgende Zeile:
-<br>
-<br>
-"LambdaFunctionArn": "arn:aws:lambda:us-east-1:**<AWS_AccountId>**:function:Csv2JsonFunction", 
-<br>
-<br>
-Ersetzen Sie **<AWS_AccountId>** mit ihrem eigenen Aws_AccountId
-<br>
-
-<img src="img/notificationjson.png" width="500">
-<br>
-<br>
-5. **Initialisierung ausführen**: Führen Sie das Initialisierungsskript aus, um die erforderlichen AWS-Ressourcen zu erstellen:
+4. **Initialisierung ausführen**: Führen Sie das Initialisierungsskript aus, um die erforderlichen AWS-Ressourcen zu erstellen:
 
 ```bash
 # Datei ausführbar machen (Berechtigungen)
@@ -230,19 +215,7 @@ Im gleichen Schritt erfolgt auch die Installation eines weiteren Tools.
 <br>
 
 
-#### 4. Datei "notification.json" anpassen
-
-Damit das Skript fehlerfrei mit den richtigen Angaben funktioniert, geben wir zunächst unsere AWS_AccountId in die Datei notification.json ein.
-
-<img src="img/test/notificationjson.png" width=400>
-<br>
-Im Beispiel ist die AWS_Account_Id aus Sicherheitsgründen zensiert. Nach der Bearbeitung 
-ist die Datei notification.json angepasst und bereit für die Ausführung der Skripte.
-
-<br>
-<br>
-
-#### 5. Erster Skript "init.sh" ausführen 
+#### 4. Erster Skript "init.sh" ausführen 
 
 Jetzt können wir unser erstes Skript mit dem Namen init.sh ausführen. 
 Dabei muss erneut unsere AWS_Account_Id angegeben werden, die im Beispiel aus Datenschutzgründen zensiert ist.
@@ -255,7 +228,7 @@ Zusätzlich wird die Lambda-Funktion bereitgestellt, sodass wir nun bereit sind,
 <br>
 
 
-#### 6. Fall 1: Runpipeline.sh direkt nach Initialisierung ausführen
+#### 5. Fall 1: Runpipeline.sh direkt nach Initialisierung ausführen
 
 Im vorherigen Schritt werden zwei Testfälle vorbereitet. Im ersten Fall wird das Skript Runpipeline.sh 
 direkt mit der Antwort 'y' (yes) ausgeführt. Dabei werden die benötigten Daten direkt übergeben, und die Datei im Input-Ordner wird konvertiert.
@@ -269,7 +242,7 @@ Sie können jedoch auch direkt zum nächsten Schritt übergehen.
 <br>
 <br>
 
-#### 6. Fall 2: Runpipeline.sh selber ausführen
+#### 5. Fall 2: Runpipeline.sh selber ausführen
 
 Nach dem 5. Schritt lehnen wir die Ausführung von Runpipeline.sh mit der Angabe 'n' (no) ab. Anschließend führen wir das Skript Runpipeline.sh manuell aus.
 
