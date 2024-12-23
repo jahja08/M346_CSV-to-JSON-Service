@@ -292,7 +292,11 @@ Diese Daten werden nach der Initialisierung ausgegeben, können jedoch auch übe
 
 ### Jahja Ajredini
 
-<!-- Reflexion -->
+Am Anfang der Gruppenarbeit war es noch sehr chaotisch. In der Gruppe gab es noch keine richtige Idee, wer was machen sollte und so verbrachten wir die ersten zwei Lektionen damit, unsere Computer vorzubereiten und die Aufgabe zu lesen. In der zweiten Woche war die Aufgabenverteilung immer noch nicht so richtig geklärt, da den anderen beiden immer noch vieles unklar war und so haben wir auch in der Zeitwoche nichts Gescheites hinbekommen. Auf das Repository welches wir alles commited haben, wurde von Alaaddin erstellt, Merdijan hat es sich zur Aufgabe gemacht, das README anzufangen. Alaaddin und ich haben daraufhin angefanden die Scripts herzustellen. Wir haben überall kleine Baustellen angefangen und hatten immer noch keine Ahnung, wer eigentlich was macht. Am Wochenende habe ich dann angefangen den Code selber zu schreiben und habe versucht das Ganze so gut wie möglich in ein neues Repository zu committen. Als ich dann tatsächlich den ganzen Code geschrieben hatte, habe ich versucht, den anderen beiden ihre Aufgaben zu geben. Alaaddin habe ich die Aufgabe gegeben das Ganze zu testen und das dann in das README zu schreiben. Merdijans Aufgabe war es, die ganze Dokumentation zu machen und sich mit Alaaddin auszutauschen, um die Dokumentation zu vervollständigen.
+
+<br>
+Fazit: <br>
+Wir hatten zu lange keine richtige Aufteilung und wussten nicht, wie wir das Projekt aufteilen sollten. Ich hätte zu Beginn des Projektes alles in die Hand nehmen und die Aufgaben verteilen sollen. So musste ich in diesem Projekt vieles selbst machen, was eigentlich nicht der richtige Ansatz war. 
 
 <br>
 
