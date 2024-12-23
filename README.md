@@ -138,6 +138,7 @@ chmod +x scripts/Init.sh
 # Führt das Skript aus.
 ./scripts/Init.sh <AWS_ACCOUNT_ID>
 ```
+
 **Hinweis:** Ersetzen Sie **<AWS_ACCOUNT_ID>** durch Ihre AWS-Account ID.
 
 Das Skript führt folgende Aktionen durch:

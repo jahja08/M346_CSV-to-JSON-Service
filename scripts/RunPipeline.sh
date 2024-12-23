@@ -7,57 +7,56 @@ IN_BUCKET=$1
 OUT_BUCKET=$2
 LAMBDA_FUNCTION_NAME=$3
 
-# CSV-Datei in den Input-Bucket hochladen
-CSV_Datei=$(find ./input -maxdepth 1 -type f -name "*.csv" | head -n 1)
-if [ -z "$CSV_Datei" ]; then
-    echo "Keine CSV-Datei im Ordner 'input' gefunden."
-    exit 1
-fi
+# CSV-Dateien in den Input-Bucket hochladen und verarbeiten
+for CSV_Datei in ./input/*.csv; do
+    if [ -f "$CSV_Datei" ]; then
+        aws s3 cp "$CSV_Datei" s3://$IN_BUCKET
+        if [ $? -eq 0 ]; then
+            echo "CSV-Datei erfolgreich hochgeladen: $CSV_Datei"
+            if [ -f "./input/uploads/$(basename "$CSV_Datei")" ]; then
+                TIMESTAMP=$(date +%s)
+                mv "$CSV_Datei" "./input/uploads/$(basename "$CSV_Datei" .csv)_$TIMESTAMP.csv"
+            else
+                mv "$CSV_Datei" ./input/uploads/
+            fi
+            if [ $? -eq 0 ]; then
+                echo "CSV-Datei erfolgreich in den Ordner 'uploads' verschoben: $CSV_Datei"
+            else
+                echo "Fehler beim Verschieben der CSV-Datei in den Ordner 'uploads': $CSV_Datei"
+                exit 1
+            fi
+        else
+            echo "Fehler beim Hochladen der CSV-Datei: $CSV_Datei"
+            exit 1
+        fi
 
-aws s3 cp "$CSV_Datei" s3://$IN_BUCKET
-if [ $? -eq 0 ]; then
-    echo "CSV-Datei erfolgreich hochgeladen."
-    if [ -f "./input/uploads/$(basename "$CSV_Datei")" ]; then
-        TIMESTAMP=$(date +%s)
-        mv "$CSV_Datei" "./input/uploads/$(basename "$CSV_Datei" .csv)_$TIMESTAMP.csv"
+        # JSON-Datei aus dem S3-Bucket herunterladen
+        JSON_FILE=$(basename "$CSV_Datei" .csv).json
+
+        # Polling mechanism to check if the JSON file has been processed
+        echo "Überprüfe, ob die Datei verarbeitet wurde: $JSON_FILE"
+        while true; do
+            if aws s3 ls s3://$OUT_BUCKET/$JSON_FILE > /dev/null 2>&1; then
+                echo "Datei wurde verarbeitet: $JSON_FILE"
+                break
+            else
+                echo "Datei noch nicht verarbeitet. Warte 5 Sekunden..."
+                sleep 5
+            fi
+        done
+
+        OUTPUT_FILE=./output/$JSON_FILE
+        if [ -f "$OUTPUT_FILE" ]; then
+            TIMESTAMP=$(date +%s)
+            aws s3 cp s3://$OUT_BUCKET/$JSON_FILE ./output/$(basename "$CSV_Datei" .csv)_$TIMESTAMP.json
+        else
+            aws s3 cp s3://$OUT_BUCKET/$JSON_FILE ./output
+        fi
     else
-        mv "$CSV_Datei" ./input/uploads/
-    fi
-    if [ $? -eq 0 ]; then
-        echo "CSV-Datei erfolgreich in den Ordner 'uploads' verschoben."
-    else
-        echo "Fehler beim Verschieben der CSV-Datei in den Ordner 'uploads'."
-        exit 1
-    fi
-else
-    echo "Fehler beim Hochladen der CSV-Datei."
-    exit 1
-fi
-
-# JSON-Datei aus dem S3-Bucket herunterladen
-JSON_FILE=$(basename "$CSV_Datei" .csv).json
-
-# Polling mechanism to check if the JSON file has been verarbeitet
-echo "Überprüfe, ob die Datei verarbeitet wurde..."
-while true; do
-    if aws s3 ls s3://$OUT_BUCKET/$JSON_FILE > /dev/null 2>&1; then
-        echo "Datei wurde verarbeitet."
+        echo "Keine CSV-Datei im Ordner 'input' gefunden. Beende den Prozess."
         break
-    else
-        echo "Datei noch nicht verarbeitet. Warte 5 Sekunden..."
-        sleep 5
     fi
 done
-
-OUTPUT_FILE=./output/$JSON_FILE
-if [ -f "$OUTPUT_FILE" ]; then
-    TIMESTAMP=$(date +%s)
-    aws s3 cp s3://$OUT_BUCKET/$JSON_FILE ./output/$(basename "$CSV_Datei" .csv)_$TIMESTAMP.json
-else
-    aws s3 cp s3://$OUT_BUCKET/$JSON_FILE ./output
-fi
-
-
 
 # Aufräumen
 while true; do
